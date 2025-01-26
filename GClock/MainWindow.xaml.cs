@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Timers;  // Use System.Timers
+using System.Timers;
 using System.Windows;
 using System.Windows.Media;
 
@@ -9,9 +9,10 @@ namespace GClock
     {
         private System.Timers.Timer timer;
         private DateTime simulatedTime;
-        private double dayDurationInMinutes = 30; // Default 30-minute day
+        private double dayDurationInMinutes = 60; // Default 60-minute day
         private string timeFormat = "HH:mm:ss";
-        private bool isWindowClosing = false; 
+        private bool isWindowClosing = false;
+        List<DateTime> alarms = new List<DateTime>();   
 
         public MainWindow()
         {
@@ -52,12 +53,14 @@ namespace GClock
                 timer.Stop();
                 StopStartButton.Content = "Start";
                 StopStartButton.Background = Brushes.LightGreen;
+                StopStartButton.Foreground = Brushes.Black;
             }
             else
             {
                 timer.Start();
                 StopStartButton.Content = "Stop";
                 StopStartButton.Background = Brushes.IndianRed;
+                StopStartButton.Foreground = Brushes.WhiteSmoke;
             }
         }
 
@@ -87,6 +90,32 @@ namespace GClock
                 timer.Stop();
                 timer.Dispose();
             }
+        }
+
+        private void OpenAlarmWindow_Click(object sender, RoutedEventArgs e)
+        {
+            AlarmWindow alarmWindow = new AlarmWindow();
+            alarmWindow.Show();
+        }
+
+        private void IncreaseTime_Click(object sender, RoutedEventArgs e)
+        {
+            simulatedTime = simulatedTime.AddHours(1);
+            ClockDisplay.Text = simulatedTime.ToString(timeFormat);
+        }
+
+        private void DecreaseTime_Click(object sender, RoutedEventArgs e)
+        {
+            if (simulatedTime.Hour < 1)
+            {
+                simulatedTime = new DateTime(1, 1, 1, 0, 0, 0);
+            }
+            else
+            {
+                simulatedTime = simulatedTime.Subtract(TimeSpan.FromHours(1));
+            }
+
+            ClockDisplay.Text = simulatedTime.ToString(timeFormat);
         }
     }
 }

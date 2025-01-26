@@ -4,36 +4,59 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GClock"
+        xmlns:bi="https://github.com/helluvamatt/BootstrapIcons.Wpf/"
         mc:Ignorable="d"
         Title="Custom Clock" Height="450" Width="800">
     <Grid>
+
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20" Click="OpenAlarmWindow_Click"
+            Background="Transparent" BorderThickness="0" Cursor="Hand">
+            <bi:BootstrapIcon Icon="AlarmFill" Width="35" Height="35" Foreground="DimGray"/>
+        </Button>
+
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button x:Name="StopStartButton" Height="30" Width="80" Margin="0,0,0,10"
-                    Content="Stop" Background="IndianRed" Click="StopStartButton_Click">
+                <Button FontSize="17" FontFamily="Segoe UI" x:Name="StopStartButton" Height="40" Width="100" Margin="0,0,0,10"
+                    Content="Stop" Background="IndianRed" Foreground="WhiteSmoke" Click="StopStartButton_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="15"/>
+                            <Setter Property="CornerRadius" Value="20"/>
                         </Style>
                     </Button.Resources>
                 </Button>
 
-                <Button x:Name="ResetButton" Height="30" Width="80" Margin="20,0,0,10"
+                <Button FontSize="17" FontFamily="Segoe UI" x:Name="ResetButton" Height="40" Width="100" Margin="20,0,0,10"
                     Content="Reset" Click="ResetButton_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="15"/>
+                            <Setter Property="CornerRadius" Value="20"/>
                         </Style>
                     </Button.Resources>
                 </Button>
             </StackPanel>
 
-            <TextBlock Name="ClockDisplay" FontSize="68" FontWeight="Bold" Text="00:00:00" HorizontalAlignment="Center"/>
 
-            <StackPanel Orientation="Horizontal" Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+
+
+                <Button VerticalAlignment="Center" Click="DecreaseTime_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Margin="0,7,15,0">
+                    <bi:BootstrapIcon Icon="DashCircle" Width="30" Height="30" Foreground="DimGray"/>
+                </Button>
+
+                <TextBlock Name="ClockDisplay" FontSize="80" FontWeight="Bold" Text="00:00:00" HorizontalAlignment="Center"/>
+
+                <Button VerticalAlignment="Center" Click="IncreaseTime_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Margin="15,7,0,0">
+                    <bi:BootstrapIcon Icon="PlusCircle" Width="30" Height="30" Foreground="DimGray"/>
+                </Button>
+
+            </StackPanel>
+
+
+
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
                 <TextBlock Text="Day Duration (min): " VerticalAlignment="Center"/>
-                <Slider Name="DayDurationSlider" Minimum="1" Maximum="120" Value="15" Width="200"/>
-                <TextBlock Name="SliderValueText" Text="30" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <Slider Name="DayDurationSlider" Minimum="1" Maximum="120" Value="60" Width="200"/>
+                <TextBlock Name="SliderValueText" Text="60" Margin="10,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">

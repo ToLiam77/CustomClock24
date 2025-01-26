@@ -1,0 +1,98 @@
+﻿<Window x:Class="GClock.AlarmWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:bi="https://github.com/helluvamatt/BootstrapIcons.Wpf/"
+        Title="" Height="600" Width="375"
+        WindowStartupLocation="CenterScreen"
+        Background="WhiteSmoke">
+
+    <Grid Margin="20">
+        <StackPanel>
+
+            <!-- Title -->
+            <TextBlock Text="Add New Alarm" HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,5,0,25" FontFamily="Segoe UI Light"/>
+
+            <!-- Time Picker (Hour & Minute) -->
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="270">
+                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  Click="HourUp_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135">
+                    <bi:BootstrapIcon Icon="ChevronUp" Width="30" Height="30" Foreground="Gray"/>
+                </Button>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  Click="MinuteUp_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135">
+                    <bi:BootstrapIcon Icon="ChevronUp" Width="30" Height="30" Foreground="Gray"/>
+                </Button>
+            </StackPanel>
+
+
+            <Border  BorderBrush="Gray" BorderThickness="1" Margin="0,10,0,10" Width="270" Height="70">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="1"/>
+                </Border.Effect>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="White">
+
+
+                    <TextBlock  Padding="5" Text="7" TextAlignment="Center" FontSize="35" Width="130" Height="50" FontFamily="Serif" />
+
+                    <TextBlock Text=":" FontSize="33" VerticalAlignment="Center" Height="50"/>
+
+                    <TextBlock Padding="5" Text="00" VerticalAlignment="Center" TextAlignment="Center" FontSize="35" Width="130" Height="50" FontFamily="Serif" />
+
+                </StackPanel>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="270">
+                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  Click="HourDown_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135">
+                    <bi:BootstrapIcon Icon="ChevronDown" Width="30" Height="30" Foreground="Gray"/>
+                </Button>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  Click="MinuteDown_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135">
+                    <bi:BootstrapIcon Icon="ChevronDown" Width="30" Height="30" Foreground="Gray"/>
+                </Button>
+            </StackPanel>
+
+
+            <!-- Alarm Name Input -->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30,0,10">
+                <bi:BootstrapIcon Icon="PencilSquare" Width="30" Height="30"/>
+                <TextBox Padding="7" x:Name="AlarmNameTextBox" Width="235" Height="45" Text="Alarm (1)" FontSize="20" Margin="10,0,0,0" />
+            </StackPanel>
+
+            <!-- Sound Selection -->
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0">
+                <bi:BootstrapIcon Icon="MusicNoteBeamed" Width="30" Height="30"/>
+                <ComboBox Padding="8" x:Name="SoundDropdown" Width="235" FontSize="20" Height="45" Background="White" Margin="10,0,0,0">
+                    <ComboBoxItem Content="Chimes" IsSelected="True"/>
+                    <ComboBoxItem Content="Beep"/>
+                    <ComboBoxItem Content="Bells"/>
+                </ComboBox>
+            </StackPanel>
+
+
+
+            
+
+        </StackPanel>
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Bottom">
+            <Button x:Name="Save" Height="45" Width="135" Margin="0,0,0,10"
+        Content="Save" Background="MidnightBlue"  Foreground="White" Click="SaveAlarm_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="Cancel" Height="45" Width="135" Margin="10,0,0,10"
+        Content="Cacel" Background="White" Click="Cancel_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</Window>
