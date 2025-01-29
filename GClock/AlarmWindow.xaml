@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:bi="https://github.com/helluvamatt/BootstrapIcons.Wpf/"
-        Title="" Height="600" Width="375"
+        Title="" Height="650" Width="375"
         WindowStartupLocation="CenterScreen"
-        Background="WhiteSmoke">
+        Background="WhiteSmoke"
+        ResizeMode="NoResize">
 
     <Grid Margin="20">
         <StackPanel>
@@ -16,10 +17,14 @@
             <!-- Time Picker (Hour & Minute) -->
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="270">
-                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  Click="HourUp_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135">
+                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  
+                Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135" 
+                PreviewMouseDown="HourUp_PreviewMouseDown" PreviewMouseUp="Button_PreviewMouseUp">
                     <bi:BootstrapIcon Icon="ChevronUp" Width="30" Height="30" Foreground="Gray"/>
                 </Button>
-                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  Click="MinuteUp_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135">
+                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  
+                Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135" 
+                PreviewMouseDown="MinuteUp_PreviewMouseDown" PreviewMouseUp="Button_PreviewMouseUp">
                     <bi:BootstrapIcon Icon="ChevronUp" Width="30" Height="30" Foreground="Gray"/>
                 </Button>
             </StackPanel>
@@ -32,20 +37,24 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="White">
 
 
-                    <TextBlock  Padding="5" Text="7" TextAlignment="Center" FontSize="35" Width="130" Height="50" FontFamily="Serif" />
+                    <TextBlock Name="HourText" Padding="5" Text="7" TextAlignment="Center" FontSize="35" Width="130" Height="50" FontFamily="Serif" />
 
                     <TextBlock Text=":" FontSize="33" VerticalAlignment="Center" Height="50"/>
 
-                    <TextBlock Padding="5" Text="00" VerticalAlignment="Center" TextAlignment="Center" FontSize="35" Width="130" Height="50" FontFamily="Serif" />
+                    <TextBlock Name="MinuteText" Padding="5" Text="00" VerticalAlignment="Center" TextAlignment="Center" FontSize="35" Width="130" Height="50" FontFamily="Serif" />
 
                 </StackPanel>
             </Border>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="270">
-                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  Click="HourDown_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135">
+                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  
+                Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135" 
+                PreviewMouseDown="HourDown_PreviewMouseDown" PreviewMouseUp="Button_PreviewMouseUp">
                     <bi:BootstrapIcon Icon="ChevronDown" Width="30" Height="30" Foreground="Gray"/>
                 </Button>
-                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  Click="MinuteDown_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135">
+                <Button HorizontalAlignment="Center" VerticalAlignment="Top"  
+                Background="Transparent" BorderThickness="0" Cursor="Hand" Width="135" 
+                PreviewMouseDown="MinuteDown_PreviewMouseDown" PreviewMouseUp="Button_PreviewMouseUp">
                     <bi:BootstrapIcon Icon="ChevronDown" Width="30" Height="30" Foreground="Gray"/>
                 </Button>
             </StackPanel>
@@ -59,33 +68,46 @@
 
             <!-- Sound Selection -->
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,10">
                 <bi:BootstrapIcon Icon="MusicNoteBeamed" Width="30" Height="30"/>
                 <ComboBox Padding="8" x:Name="SoundDropdown" Width="235" FontSize="20" Height="45" Background="White" Margin="10,0,0,0">
-                    <ComboBoxItem Content="Chimes" IsSelected="True"/>
-                    <ComboBoxItem Content="Beep"/>
-                    <ComboBoxItem Content="Bells"/>
+                    <ComboBoxItem Content="Doorbell" IsSelected="True" Tag="Sounds/doorbell.wav"/>
+                    <ComboBoxItem Content="School Bell" Tag="Sounds/schoolbell.wav"/>
+                    <ComboBoxItem Content="Bird Chirping" Tag="Sounds/bird_chirping.wav"/>
+                    <ComboBoxItem Content="Cat FIght" Tag="Sounds/cat_fight.wav"/>
+                    <ComboBoxItem Content="Chicken" Tag="Sounds/chicken.wav"/>
+                    <ComboBoxItem Content="Crows" Tag="Sounds/crows.wav"/>
+                    <ComboBoxItem Content="Dog Bark" Tag="Sounds/dog_bark.wav"/>
+                    <ComboBoxItem Content="Ice Cream Truck" Tag="Sounds/ice_cream_truck.wav"/>
+                    <ComboBoxItem Content="Monkey" Tag="Sounds/monkey.wav"/>
+                    <ComboBoxItem Content="Rooster" Tag="Sounds/rooster.wav"/>
+                    <ComboBoxItem Content="Wolf Howl" Tag="Sounds/wolf_howl.wav"/>
                 </ComboBox>
+            </StackPanel>
+
+            <!-- Recurring Toggle -->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Width="275" Margin="0,15,0,0">
+                <bi:BootstrapIcon Icon="ArrowRepeat" Width="30" Height="30" Margin="0,0,15,0" HorizontalAlignment="Left"/>
+                <TextBlock Text="Recurring" Padding="0,0,10,0" VerticalAlignment="Center" FontSize="20" />
+                <CheckBox x:Name="RecurringToggle" Width="50" Height="30" IsChecked="False" Checked="IsRecurring_Checked" Unchecked="IsRecurring_Unchecked" Cursor="Hand"/>
             </StackPanel>
 
 
 
-            
+
 
         </StackPanel>
 
         <!-- Buttons -->
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Bottom">
-            <Button x:Name="Save" Height="45" Width="135" Margin="0,0,0,10"
-        Content="Save" Background="MidnightBlue"  Foreground="White" Click="SaveAlarm_Click">
+            <Button x:Name="Save" FontSize="15" FontFamily="Segoe UI" Height="45" Width="135" Margin="0,0,0,10" Content="Save" Background="MidnightBlue"  Foreground="White" Click="SaveAlarm_Click" Cursor="Hand">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="Cancel" Height="45" Width="135" Margin="10,0,0,10"
-        Content="Cacel" Background="White" Click="Cancel_Click">
+            <Button x:Name="Cancel" FontSize="15" FontFamily="Segoe UI" Height="45" Width="135" Margin="10,0,0,10" Content="Cacel" Background="White" Click="Cancel_Click" Cursor="Hand">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -95,4 +117,55 @@
 
         </StackPanel>
     </Grid>
+
+    <Window.Resources>
+        <Style TargetType="CheckBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid Width="50" Height="25">
+                            <Border x:Name="SwitchBackground" Width="50" Height="25"
+                            CornerRadius="12.5"
+                            Background="LightGray" />
+
+                            <Ellipse x:Name="SwitchThumb" Width="20" Height="20"
+                             Fill="White" Stroke="Gray"
+                             HorizontalAlignment="Left"
+                             Margin="2,0,0,0">
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform x:Name="ThumbTransform" X="0"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="SwitchBackground"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="LightBlue" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="ThumbTransform"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="25" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Unchecked">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="SwitchBackground"
+                                                    Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                    To="LightGray" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="ThumbTransform"
+                                                     Storyboard.TargetProperty="X"
+                                                     To="0" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 </Window>

@@ -7,81 +7,22 @@
         xmlns:bi="https://github.com/helluvamatt/BootstrapIcons.Wpf/"
         mc:Ignorable="d"
         Title="Custom Clock" Height="450" Width="800">
-    <Grid>
-
-        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20" Click="OpenAlarmWindow_Click"
-            Background="Transparent" BorderThickness="0" Cursor="Hand">
-            <bi:BootstrapIcon Icon="AlarmFill" Width="35" Height="35" Foreground="DimGray"/>
-        </Button>
-
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button FontSize="17" FontFamily="Segoe UI" x:Name="StopStartButton" Height="40" Width="100" Margin="0,0,0,10"
-                    Content="Stop" Background="IndianRed" Foreground="WhiteSmoke" Click="StopStartButton_Click">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="20"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
-                <Button FontSize="17" FontFamily="Segoe UI" x:Name="ResetButton" Height="40" Width="100" Margin="20,0,0,10"
-                    Content="Reset" Click="ResetButton_Click">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="20"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-            </StackPanel>
-
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-
-
-                <Button VerticalAlignment="Center" Click="DecreaseTime_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Margin="0,7,15,0">
-                    <bi:BootstrapIcon Icon="DashCircle" Width="30" Height="30" Foreground="DimGray"/>
-                </Button>
-
-                <TextBlock Name="ClockDisplay" FontSize="80" FontWeight="Bold" Text="00:00:00" HorizontalAlignment="Center"/>
-
-                <Button VerticalAlignment="Center" Click="IncreaseTime_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Margin="15,7,0,0">
-                    <bi:BootstrapIcon Icon="PlusCircle" Width="30" Height="30" Foreground="DimGray"/>
-                </Button>
-
-            </StackPanel>
-
-
-
-            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-                <TextBlock Text="Day Duration (min): " VerticalAlignment="Center"/>
-                <Slider Name="DayDurationSlider" Minimum="1" Maximum="120" Value="60" Width="200"/>
-                <TextBlock Name="SliderValueText" Text="60" Margin="10,0,0,0" VerticalAlignment="Center"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
-                <TextBlock Text="Include seconds " VerticalAlignment="Center" Margin="0,0,0,0"/>
-                <CheckBox x:Name="IncludeSecondsToggle" Width="50" Height="30" IsChecked="True" 
-                          Checked="IncludeSecondsToggle_Checked" Unchecked="IncludeSecondsToggle_Unchecked"/>
-            </StackPanel>
-
-        </StackPanel>
-    </Grid>
 
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <Style TargetType="CheckBox">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
                         <Grid Width="50" Height="25">
                             <Border x:Name="SwitchBackground" Width="50" Height="25"
-                                    CornerRadius="12.5"
-                                    Background="LightGray" />
+                                CornerRadius="12.5"
+                                Background="LightGray" />
 
                             <Ellipse x:Name="SwitchThumb" Width="20" Height="20"
-                                     Fill="White" Stroke="Gray"
-                                     HorizontalAlignment="Left"
-                                     Margin="2,0,0,0">
+                                 Fill="White" Stroke="Gray"
+                                 HorizontalAlignment="Left"
+                                 Margin="2,0,0,0">
                                 <Ellipse.RenderTransform>
                                     <TranslateTransform x:Name="ThumbTransform" X="0"/>
                                 </Ellipse.RenderTransform>
@@ -92,22 +33,22 @@
                                     <VisualState x:Name="Checked">
                                         <Storyboard>
                                             <ColorAnimation Storyboard.TargetName="SwitchBackground"
-                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                            To="LightBlue" Duration="0:0:0.2"/>
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="LightBlue" Duration="0:0:0.2"/>
                                             <DoubleAnimation Storyboard.TargetName="ThumbTransform"
-                                                             Storyboard.TargetProperty="X"
-                                                             To="25" Duration="0:0:0.2"/>
+                                                         Storyboard.TargetProperty="X"
+                                                         To="25" Duration="0:0:0.2"/>
                                         </Storyboard>
                                     </VisualState>
 
                                     <VisualState x:Name="Unchecked">
                                         <Storyboard>
                                             <ColorAnimation Storyboard.TargetName="SwitchBackground"
-                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                            To="LightGray" Duration="0:0:0.2"/>
+                                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                        To="LightGray" Duration="0:0:0.2"/>
                                             <DoubleAnimation Storyboard.TargetName="ThumbTransform"
-                                                             Storyboard.TargetProperty="X"
-                                                             To="0" Duration="0:0:0.2"/>
+                                                         Storyboard.TargetProperty="X"
+                                                         To="0" Duration="0:0:0.2"/>
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -118,5 +59,79 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
+
+    <Grid>
+
+        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20" Click="ToggleVisibility_Click"
+            Background="Transparent" BorderThickness="0" Cursor="Hand">
+            <bi:BootstrapIcon Name="VisibilityToggle" Icon="EyeSlashFill" Width="35" Height="35" Foreground="DimGray"/>
+        </Button>
+
+
+        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20" Click="OpenAlarmWindow_Click"
+            Background="Transparent" BorderThickness="0" Cursor="Hand" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+            <bi:BootstrapIcon Icon="AlarmFill" Width="35" Height="35" Foreground="DimGray"/>
+        </Button>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+                <Button FontSize="17" FontFamily="Segoe UI" x:Name="StopStartButton" Height="40" Width="100" Margin="0,0,0,10"
+                    Content="Stop" Background="IndianRed" Foreground="WhiteSmoke" Click="StopStartButton_Click" Cursor="Hand">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button FontSize="17" FontFamily="Segoe UI" x:Name="ResetButton" Height="40" Width="100" Margin="20,0,0,10"
+                    Content="Reset" Click="ResetButton_Click" Cursor="Hand">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+
+                <Button VerticalAlignment="Center" Click="DecreaseTime_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Margin="0,7,15,0" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+                    <bi:BootstrapIcon Icon="DashCircle" Width="30" Height="30" Foreground="DimGray"/>
+                </Button>
+
+                <TextBlock Name="ClockDisplay" FontSize="80" FontWeight="Bold" Text="00:00:00" HorizontalAlignment="Center"/>
+
+                <Button VerticalAlignment="Center" Click="IncreaseTime_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Margin="15,7,0,0" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+                    <bi:BootstrapIcon Icon="PlusCircle" Width="30" Height="30" Foreground="DimGray"/>
+                </Button>
+
+            </StackPanel>
+
+
+
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+                <TextBlock Text="Day Duration (min): " VerticalAlignment="Center"/>
+                <Slider Name="DayDurationSlider" Minimum="1" Maximum="180" Value="60" Width="200" Cursor="Hand"/>
+                <TextBlock Name="SliderValueText" Text="60" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,40,0,0" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+                <TextBlock Text="Include seconds" Padding="0,0,10,0" VerticalAlignment="Center"/>
+                <CheckBox x:Name="IncludeSecondsToggle" Width="50" Height="30" IsChecked="True" 
+                          Checked="IncludeSecondsToggle_Checked" Unchecked="IncludeSecondsToggle_Unchecked" Cursor="Hand"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+                <TextBlock Text="Show alarms" Padding="0,0,28,0" VerticalAlignment="Center"/>
+                <CheckBox x:Name="ShowAlarmsToggle" Width="50" Height="30" IsChecked="False" 
+              Checked="ShowAlarmsToggle_Checked" Unchecked="ShowAlarmsToggle_Unchecked" Cursor="Hand"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+
 </Window>

@@ -9,6 +9,7 @@ namespace GClock
     /// </summary>
     public partial class App : Application
     {
+        public List<Alarm> Alarms = new List<Alarm>();
     }
 
 }
