@@ -107,7 +107,7 @@
                     </Style>
                 </Button.Resources>
             </Button>
-            <Button x:Name="Cancel" FontSize="15" FontFamily="Segoe UI" Height="45" Width="135" Margin="10,0,0,10" Content="Cacel" Background="White" Click="Cancel_Click" Cursor="Hand">
+            <Button x:Name="Cancel" FontSize="15" FontFamily="Segoe UI" Height="45" Width="135" Margin="10,0,0,10" Content="Cancel" Background="White" Click="Cancel_Click" Cursor="Hand">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>
