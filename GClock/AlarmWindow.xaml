@@ -6,6 +6,7 @@
         Title="" Height="650" Width="375"
         WindowStartupLocation="CenterScreen"
         Background="WhiteSmoke"
+        Icon="Assets/clock.ico"
         ResizeMode="NoResize">
 
     <Grid Margin="20">
