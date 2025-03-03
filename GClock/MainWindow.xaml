@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:GClock"
         xmlns:bi="https://github.com/helluvamatt/BootstrapIcons.Wpf/"
         mc:Ignorable="d"
-        Title="Custom Clock" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Title="Custom Clock" Height="500" Width="800">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -73,9 +74,11 @@
             Background="Transparent" BorderThickness="0" Cursor="Hand" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
             <bi:BootstrapIcon Icon="AlarmFill" Width="35" Height="35" Foreground="DimGray"/>
         </Button>
-
+        
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+
+            <!-- Buttons  -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,25,0,5" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
                 <Button FontSize="17" FontFamily="Segoe UI" x:Name="StopStartButton" Height="40" Width="100" Margin="0,0,0,10"
                     Content="Stop" Background="IndianRed" Foreground="WhiteSmoke" Click="StopStartButton_Click" Cursor="Hand">
                     <Button.Resources>
@@ -133,73 +136,78 @@
               Checked="ShowAlarmsToggle_Checked" Unchecked="ShowAlarmsToggle_Unchecked" Cursor="Hand"/>
             </StackPanel>
 
-            <StackPanel Name="AlarmsListPanel" Visibility="Collapsed" Margin="20,10,20,0">
-                <TextBlock Text="Alarms" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+            <StackPanel Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+                <StackPanel Name="AlarmsListPanel" Visibility="Collapsed" Margin="20,10,20,0" >
+                    <TextBlock Text="Alarms" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
 
-                <!-- Scrollable Area -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="300">
-                    <ItemsControl ItemsSource="{Binding Alarms}" Name="AlarmsList">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                    <!-- Scrollable Area -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Height="250" >
+                        <ItemsControl ItemsSource="{Binding Alarms}" Name="AlarmsList">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1" BorderBrush="Gray" Padding="10" Margin="0,5,0,5">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                        <!-- Alarm Name -->
-                                        <TextBlock Text="{Binding Name}" FontSize="16" VerticalAlignment="Center" Width="180" TextTrimming="CharacterEllipsis"/>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="1" BorderBrush="Gray" Padding="10" Margin="0,5,0,5">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                            <!-- Alarm Name -->
+                                            <TextBlock Text="{Binding Name}" FontSize="16" VerticalAlignment="Center" Width="180" TextTrimming="CharacterEllipsis"/>
 
-                                        <!-- Alarm Time-->
-                                        <TextBlock Text="{Binding Time}" FontSize="16" VerticalAlignment="Center" Width="70" HorizontalAlignment="Right" Margin="5,0,5,0"/>
+                                            <!-- Alarm Time-->
+                                            <TextBlock Text="{Binding Time}" FontSize="16" VerticalAlignment="Center" Width="70" HorizontalAlignment="Right" Margin="5,0,5,0"/>
 
-                                        <!-- Recurring -->
-                                        <ContentControl Width="100" HorizontalAlignment="Center">
-                                            <ContentControl.Style>
-                                                <Style TargetType="ContentControl">
-                                                    <Setter Property="ContentTemplate">
-                                                        <Setter.Value>
-                                                            <DataTemplate>
-                                                                <bi:BootstrapIcon Icon="XCircle" Width="20" Height="20" Foreground="Red"/>
-                                                            </DataTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding IsRecurring}" Value="True">
-                                                            <Setter Property="ContentTemplate">
-                                                                <Setter.Value>
-                                                                    <DataTemplate>
-                                                                        <bi:BootstrapIcon Icon="ArrowRepeat" Width="20" Height="20" Foreground="Green"/>
-                                                                    </DataTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ContentControl.Style>
-                                        </ContentControl>
+                                            <!-- Recurring -->
+                                            <ContentControl Width="100" HorizontalAlignment="Center">
+                                                <ContentControl.Style>
+                                                    <Style TargetType="ContentControl">
+                                                        <Setter Property="ContentTemplate">
+                                                            <Setter.Value>
+                                                                <DataTemplate>
+                                                                    <Border Width="25" Background="Transparent" ToolTip="Not Recurring" ToolTipService.InitialShowDelay="300">
+                                                                        <bi:BootstrapIcon Icon="XCircle" Width="20" Height="20" Foreground="Red"/>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsRecurring}" Value="True">
+                                                                <Setter Property="ContentTemplate">
+                                                                    <Setter.Value>
+                                                                        <DataTemplate>
+                                                                            <Border Width="25" Background="Transparent"  ToolTip="Recurring" ToolTipService.InitialShowDelay="300">
+                                                                                <bi:BootstrapIcon Icon="ArrowRepeat" Width="20" Height="20" Foreground="Green"/>
+                                                                            </Border>
+                                                                        </DataTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContentControl.Style>
+                                            </ContentControl>
 
 
-                                        <!-- Edit Button -->
-                                        <Button Click="EditAlarm_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Tag="{Binding}">
-                                            <bi:BootstrapIcon Icon="PencilSquare" Width="30" Height="25" Foreground="DimGray"/>
-                                        </Button>
 
-                                        <!-- Delete Button -->
-                                        <Button Click="DeleteAlarm_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Tag="{Binding}">
-                                            <bi:BootstrapIcon Icon="Trash" Width="30" Height="25" Foreground="IndianRed"/>
-                                        </Button>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+                                            <!-- Edit Button -->
+                                            <Button Click="EditAlarm_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Tag="{Binding}">
+                                                <bi:BootstrapIcon Icon="PencilSquare" Width="30" Height="25" Foreground="DimGray"/>
+                                            </Button>
+
+                                            <!-- Delete Button -->
+                                            <Button Click="DeleteAlarm_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Tag="{Binding}">
+                                                <bi:BootstrapIcon Icon="Trash" Width="30" Height="25" Foreground="IndianRed"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
             </StackPanel>
-
-
 
         </StackPanel>
     </Grid>

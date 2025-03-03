@@ -38,7 +38,9 @@ namespace GClock
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = (App)Application.Current;
+            DataContext = this;
+            AlarmsList.ItemsSource = ((App)Application.Current).Alarms;
+
 
             simulatedTime = new DateTime(1, 1, 1, 0, 0, 0);
 
@@ -69,11 +71,14 @@ namespace GClock
 
         private void CheckAlarms()
         {
-            List<Alarm> alarmsToRemove = new List<Alarm>(); 
+            List<Alarm> alarmsToRemove = new List<Alarm>();
 
-            foreach (var alarm in ((App)Application.Current).Alarms.ToList()) 
+            foreach (var alarm in ((App)Application.Current).Alarms.ToList())
             {
-                if (lastCheckedTime.TimeOfDay < alarm.Time && simulatedTime.TimeOfDay >= alarm.Time)
+                bool crossedMidnight = lastCheckedTime.TimeOfDay > simulatedTime.TimeOfDay;
+
+                if ((lastCheckedTime.TimeOfDay < alarm.Time && simulatedTime.TimeOfDay >= alarm.Time)
+                    || (crossedMidnight && alarm.Time <= simulatedTime.TimeOfDay))
                 {
                     alarm.PlaySound();
 
@@ -87,10 +92,18 @@ namespace GClock
             foreach (var alarm in alarmsToRemove)
             {
                 ((App)Application.Current).Alarms.Remove(alarm);
+
+                if (!AlarmsList.HasItems)
+                {
+                    AlarmsListPanel.Visibility = Visibility.Collapsed;
+                    this.Height = 500;
+                    ShowAlarmsToggle.IsChecked = false;
+                }
             }
 
             lastCheckedTime = simulatedTime;
         }
+
 
 
 
@@ -190,12 +203,24 @@ namespace GClock
 
         private void ShowAlarmsToggle_Checked(object sender, RoutedEventArgs e)
         {
-            AlarmsListPanel.Visibility = Visibility.Visible;
+            if (AlarmsList.HasItems)
+            {
+                AlarmsListPanel.Visibility = Visibility.Visible;
+                this.Height = 800;
+            }
+            else
+            {
+                ShowAlarmsToggle.IsChecked = false;
+                MessageBox.Show("No Alarms Set");
+            }
+
         }
 
         private void ShowAlarmsToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             AlarmsListPanel.Visibility = Visibility.Collapsed;
+
+            this.Height = 500;
         }
 
         private void EditAlarm_Click(object sender, RoutedEventArgs e)
@@ -213,11 +238,13 @@ namespace GClock
             {
                 ((App)Application.Current).Alarms.Remove(alarm);
             }
-        }
 
-        private void Icon_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (!AlarmsList.HasItems)
+            {
+                AlarmsListPanel.Visibility = Visibility.Collapsed;
+                this.Height = 500;
+                ShowAlarmsToggle.IsChecked = false;
+            }
         }
     }
 }
