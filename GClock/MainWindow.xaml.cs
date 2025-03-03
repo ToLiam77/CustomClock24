@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Timers;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -37,7 +38,7 @@ namespace GClock
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this;
+            DataContext = (App)Application.Current;
 
             simulatedTime = new DateTime(1, 1, 1, 0, 0, 0);
 
@@ -59,8 +60,39 @@ namespace GClock
                 double secondsPerRealSecond = (24 * 60 * 60) / (dayDurationInMinutes * 60);
                 simulatedTime = simulatedTime.AddSeconds(secondsPerRealSecond * 0.01);
                 ClockDisplay.Text = simulatedTime.ToString(timeFormat);
+
+                CheckAlarms();
             });
         }
+
+        private DateTime lastCheckedTime = DateTime.MinValue;
+
+        private void CheckAlarms()
+        {
+            List<Alarm> alarmsToRemove = new List<Alarm>(); 
+
+            foreach (var alarm in ((App)Application.Current).Alarms.ToList()) 
+            {
+                if (lastCheckedTime.TimeOfDay < alarm.Time && simulatedTime.TimeOfDay >= alarm.Time)
+                {
+                    alarm.PlaySound();
+
+                    if (!alarm.IsRecurring)
+                    {
+                        alarmsToRemove.Add(alarm);
+                    }
+                }
+            }
+
+            foreach (var alarm in alarmsToRemove)
+            {
+                ((App)Application.Current).Alarms.Remove(alarm);
+            }
+
+            lastCheckedTime = simulatedTime;
+        }
+
+
 
         private void DayDurationSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -158,10 +190,34 @@ namespace GClock
 
         private void ShowAlarmsToggle_Checked(object sender, RoutedEventArgs e)
         {
+            AlarmsListPanel.Visibility = Visibility.Visible;
         }
 
         private void ShowAlarmsToggle_Unchecked(object sender, RoutedEventArgs e)
         {
+            AlarmsListPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void EditAlarm_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is Alarm alarm)
+            {
+                AlarmWindow editWindow = new AlarmWindow(alarm);
+                editWindow.ShowDialog();
+            }
+        }
+
+        private void DeleteAlarm_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is Alarm alarm)
+            {
+                ((App)Application.Current).Alarms.Remove(alarm);
+            }
+        }
+
+        private void Icon_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

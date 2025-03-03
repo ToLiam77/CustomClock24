@@ -12,7 +12,7 @@
         <StackPanel>
 
             <!-- Title -->
-            <TextBlock Text="Add New Alarm" HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,5,0,25" FontFamily="Segoe UI Light"/>
+            <TextBlock  x:Name="AlarmWindowTitle" Text="Add New Alarm" HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,5,0,25" FontFamily="Segoe UI Light"/>
 
             <!-- Time Picker (Hour & Minute) -->
 
@@ -63,8 +63,33 @@
             <!-- Alarm Name Input -->
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30,0,10">
                 <bi:BootstrapIcon Icon="PencilSquare" Width="30" Height="30"/>
-                <TextBox Padding="7" x:Name="AlarmNameTextBox" Width="235" Height="45" Text="Alarm (1)" FontSize="20" Margin="10,0,0,0" />
+                <TextBox Padding="7" x:Name="AlarmNameTextBox" Width="235" Height="45"  FontSize="20" Margin="10,0,0,0">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <Style.Resources>
+                                <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                                    <VisualBrush.Visual>
+                                        <Label Content="Alarm Name" FontSize="20" Foreground="SlateGray" />
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Style.Resources>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
             </StackPanel>
+
+            
 
             <!-- Sound Selection -->
 

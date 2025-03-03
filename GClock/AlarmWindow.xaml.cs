@@ -15,6 +15,8 @@ namespace GClock
         private int minuteMarked = 0;
         bool isRecurring = false;
 
+        private Alarm existingAlarm; //for edit
+
         public AlarmWindow()
         {
             InitializeComponent();
@@ -30,6 +32,47 @@ namespace GClock
                 Interval = TimeSpan.FromMilliseconds(300)
             };
             initialHoldTimer.Tick += InitialHoldTimer_Tick;
+        }
+
+        public AlarmWindow(Alarm alarm)
+        {
+            InitializeComponent();
+
+            holdTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(75)
+            };
+            holdTimer.Tick += HoldTimer_Tick;
+
+            initialHoldTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(300)
+            };
+            initialHoldTimer.Tick += InitialHoldTimer_Tick;
+
+            AlarmWindowTitle.Text = "Edit Alarm";
+
+            existingAlarm = alarm; 
+
+            
+            AlarmNameTextBox.Text = alarm.Name;
+            hourMarked = alarm.Time.Hours;
+            minuteMarked = alarm.Time.Minutes;
+            isRecurring = alarm.IsRecurring;
+
+            HourText.Text = hourMarked.ToString();
+            MinuteText.Text = minuteMarked.ToString("00");
+            RecurringToggle.IsChecked = isRecurring;
+
+            
+            foreach (ComboBoxItem item in SoundDropdown.Items)
+            {
+                if (item.Tag.ToString() == alarm.SoundFile)
+                {
+                    SoundDropdown.SelectedItem = item;
+                    break;
+                }
+            }
         }
 
         private void HoldTimer_Tick(object sender, EventArgs e)
@@ -104,15 +147,25 @@ namespace GClock
         private void SaveAlarm_Click(object sender, RoutedEventArgs e)
         {
             string alarmName = AlarmNameTextBox.Text;
-            string soundFile = ((ComboBoxItem)SoundDropdown.SelectedItem).Tag.ToString();
-            TimeSpan alarmTime = TimeSpan.Parse($"{hourMarked.ToString("00")}:{minuteMarked}");
+            string soundFile = ((ComboBoxItem)SoundDropdown.SelectedItem)?.Tag?.ToString();
+            TimeSpan alarmTime = new TimeSpan(hourMarked, minuteMarked, 0);
 
-
-            Alarm alarm = new Alarm(alarmName, alarmTime, soundFile, isRecurring);
-            ((App)Application.Current).Alarms.Add(alarm);
+            if (existingAlarm != null)
+            {
+                existingAlarm.Name = alarmName;
+                existingAlarm.Time = alarmTime;
+                existingAlarm.SoundFile = soundFile;
+                existingAlarm.IsRecurring = isRecurring;
+            }
+            else
+            {
+                Alarm newAlarm = new Alarm(alarmName, alarmTime, soundFile, isRecurring);
+                ((App)Application.Current).Alarms.Add(newAlarm);
+            }
 
             this.Close();
         }
+
 
     }
 }

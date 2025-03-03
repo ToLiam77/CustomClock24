@@ -125,11 +125,81 @@
                           Checked="IncludeSecondsToggle_Checked" Unchecked="IncludeSecondsToggle_Unchecked" Cursor="Hand"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
+
+            <!-- Alarms-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,40" Visibility="{Binding IsUIVisible, Converter={StaticResource BoolToVis}}">
                 <TextBlock Text="Show alarms" Padding="0,0,28,0" VerticalAlignment="Center"/>
                 <CheckBox x:Name="ShowAlarmsToggle" Width="50" Height="30" IsChecked="False" 
               Checked="ShowAlarmsToggle_Checked" Unchecked="ShowAlarmsToggle_Unchecked" Cursor="Hand"/>
             </StackPanel>
+
+            <StackPanel Name="AlarmsListPanel" Visibility="Collapsed" Margin="20,10,20,0">
+                <TextBlock Text="Alarms" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+                <!-- Scrollable Area -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="300">
+                    <ItemsControl ItemsSource="{Binding Alarms}" Name="AlarmsList">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1" BorderBrush="Gray" Padding="10" Margin="0,5,0,5">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                        <!-- Alarm Name -->
+                                        <TextBlock Text="{Binding Name}" FontSize="16" VerticalAlignment="Center" Width="180" TextTrimming="CharacterEllipsis"/>
+
+                                        <!-- Alarm Time-->
+                                        <TextBlock Text="{Binding Time}" FontSize="16" VerticalAlignment="Center" Width="70" HorizontalAlignment="Right" Margin="5,0,5,0"/>
+
+                                        <!-- Recurring -->
+                                        <ContentControl Width="100" HorizontalAlignment="Center">
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Setter Property="ContentTemplate">
+                                                        <Setter.Value>
+                                                            <DataTemplate>
+                                                                <bi:BootstrapIcon Icon="XCircle" Width="20" Height="20" Foreground="Red"/>
+                                                            </DataTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsRecurring}" Value="True">
+                                                            <Setter Property="ContentTemplate">
+                                                                <Setter.Value>
+                                                                    <DataTemplate>
+                                                                        <bi:BootstrapIcon Icon="ArrowRepeat" Width="20" Height="20" Foreground="Green"/>
+                                                                    </DataTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                        </ContentControl>
+
+
+                                        <!-- Edit Button -->
+                                        <Button Click="EditAlarm_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Tag="{Binding}">
+                                            <bi:BootstrapIcon Icon="PencilSquare" Width="30" Height="25" Foreground="DimGray"/>
+                                        </Button>
+
+                                        <!-- Delete Button -->
+                                        <Button Click="DeleteAlarm_Click" Background="Transparent" BorderThickness="0" Cursor="Hand" Tag="{Binding}">
+                                            <bi:BootstrapIcon Icon="Trash" Width="30" Height="25" Foreground="IndianRed"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </StackPanel>
+
+
 
         </StackPanel>
     </Grid>
