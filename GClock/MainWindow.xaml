@@ -7,7 +7,6 @@
         xmlns:bi="https://github.com/helluvamatt/BootstrapIcons.Wpf/"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
         Icon="Assets/clock.ico"
         Title="Custom Clock" Height="500" Width="800">
 

@@ -197,7 +197,7 @@ namespace GClock
             else
             {
                 VisibilityToggle.Icon = BootstrapIcons.Net.BootstrapIconGlyph.EyeFill;
-                ClockDisplay.FontSize = 140;
+                ClockDisplay.FontSize = this.ActualWidth / 5;
             }
         }
 
